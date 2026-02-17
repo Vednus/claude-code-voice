@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "Claude Voice",
+    "slug": "claude-voice",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "scheme": "claude-voice",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.claudevoice.app",
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "Used for voice-to-text input to Claude",
+        "NSMicrophoneUsageDescription": "Used for voice-to-text input to Claude"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a1a2e"
+      },
+      "package": "com.claudevoice.app",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      [
+        "@jamsch/expo-speech-recognition",
+        {
+          "microphonePermission": "Allow Claude Voice to use the microphone for voice input",
+          "speechRecognitionPermission": "Allow Claude Voice to use speech recognition for voice input"
+        }
+      ]
+    ]
+  }
+}

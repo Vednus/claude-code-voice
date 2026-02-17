@@ -1,0 +1,13 @@
+{
+  "name": "claude-voice",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "relay",
+    "agent"
+  ],
+  "scripts": {
+    "relay": "npm run dev --workspace=relay",
+    "agent": "npm run dev --workspace=agent"
+  }
+}
