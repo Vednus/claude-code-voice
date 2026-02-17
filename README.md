@@ -116,18 +116,33 @@ All messages are JSON over WebSocket. The relay forwards transparently.
 
 ## Deploying the Relay
 
-The relay is a stateless WebSocket server. Deploy anywhere that supports WebSockets:
+The relay is a stateless WebSocket server. Deploy anywhere that supports WebSockets.
+
+### Railway
+
+1. Push this repo to GitHub
+2. Create a new Railway project → **Deploy from GitHub Repo**
+3. Set **Root Directory** to `relay` in service settings
+4. Railway auto-detects the Dockerfile and `railway.json` config
+5. Enable **public networking** to get a public domain
+
+Railway injects `PORT` automatically — the relay already reads it.
+
+### Fly.io
 
 ```bash
-# Fly.io
 cd relay
 fly launch
 fly deploy
-
-# Or use the Dockerfile directly with any container platform
 ```
 
-Update the agent's `RELAY_URL` and the app's relay URL to point to the deployed server.
+### Other platforms
+
+Use the Dockerfile at `relay/Dockerfile` directly with any container platform.
+
+### After deploying
+
+Update the agent's `RELAY_URL` and the app's relay URL to use `wss://your-deployed-url` (note `wss`, not `ws`).
 
 ## Configuration
 
