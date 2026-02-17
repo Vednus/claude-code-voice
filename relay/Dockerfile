@@ -1,7 +1,7 @@
 FROM node:22-slim
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --omit=dev
-COPY . .
+COPY relay/package*.json ./
+RUN npm ci
+COPY relay/ .
 EXPOSE 3211
-CMD ["npm", "start"]
+CMD ["node", "--import", "tsx", "src/index.ts"]
