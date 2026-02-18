@@ -12,9 +12,10 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.claudevoice.app",
       "infoPlist": {
-        "NSSpeechRecognitionUsageDescription": "Used for voice-to-text input to Claude",
-        "NSMicrophoneUsageDescription": "Used for voice-to-text input to Claude"
-      }
+        "NSSpeechRecognitionUsageDescription": "Allow Claude Voice to use speech recognition for voice input",
+        "NSMicrophoneUsageDescription": "Allow Claude Voice to use the microphone for voice input"
+      },
+      "appleTeamId": "H664Q9NV2J"
     },
     "android": {
       "adaptiveIcon": {

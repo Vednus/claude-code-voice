@@ -40,6 +40,7 @@ export class ClaudeSession {
           settingSources: ['user', 'project'],
           permissionMode: 'acceptEdits',
           includePartialMessages: true,
+          stderr: (msg: string) => console.error('[claude-stderr]', msg),
           ...(resumeSessionId ? { resume: resumeSessionId } : {}),
         },
       })
@@ -49,6 +50,7 @@ export class ClaudeSession {
       }
     } catch (err: any) {
       if (err.name === 'AbortError') return
+      console.error('Agent query error:', err)
       this.callbacks.onError(err.message || 'Unknown error', true)
     }
   }

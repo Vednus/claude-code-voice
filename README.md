@@ -18,13 +18,20 @@ The agent uses the Claude Agent SDK — it gets all Claude Code tools (file read
 
 ## Quick Start
 
-### 1. Start the relay
+### 1. Deploy the relay
+
+The relay needs to be publicly accessible so both the agent and app can reach it. See [Deploying the Relay](#deploying-the-relay) below for full instructions. The quickest path is Railway:
+
+1. Push this repo to GitHub
+2. Create a Railway project → **Deploy from GitHub Repo**
+3. Enable **public networking** — leave the port as the auto-detected value (do **not** override it)
+4. Copy your public domain (e.g. `my-relay-production.up.railway.app`)
+
+For local development, you can run the relay directly:
 
 ```bash
 cd relay && npm install && npm run dev
 ```
-
-Listens on `ws://localhost:3211`. Deploy to Fly.io/Railway for remote use.
 
 ### 2. Start the agent
 
@@ -35,10 +42,12 @@ cd agent && npm install
 Create a `.env` file:
 
 ```
-RELAY_URL=ws://localhost:3211
+RELAY_URL=wss://your-relay-domain.up.railway.app
 ANTHROPIC_API_KEY=sk-ant-...
 CWD=/path/to/your/project
 ```
+
+Use `wss://` for deployed relays, `ws://` for local.
 
 ```bash
 npm run dev
@@ -46,20 +55,43 @@ npm run dev
 
 On first run it generates a 6-character room code and saves it to `.env`. Note this code — you'll enter it in the app.
 
-### 3. Start the app
+### 3. Build and run the app
+
+Install dependencies:
 
 ```bash
 cd app && npm install
+```
+
+**Text only (Expo Go):**
+
+```bash
 npx expo start
 ```
 
-Open on your phone via Expo Go (text only) or build a dev client for voice features:
+Scan the QR code with Expo Go on your phone. Voice features won't work in Expo Go.
+
+**With voice (iOS device):**
+
+Requires Xcode. Connect your iPhone via USB, then:
 
 ```bash
-npx expo prebuild --clean && npx expo run:ios --device
+npx expo prebuild --clean
+npx expo run:ios --device
 ```
 
-Enter the relay URL and room code on the connect screen. Once paired, start chatting.
+**With voice (Android device):**
+
+Requires Android Studio with the Android SDK.
+
+```bash
+npx expo prebuild --clean
+npx expo run:android --device
+```
+
+### 4. Connect
+
+Open the app and enter your relay URL and room code on the connect screen. These are saved automatically so you only need to enter them once. Once paired, start chatting.
 
 ## Project Structure
 
@@ -122,11 +154,9 @@ The relay is a stateless WebSocket server. Deploy anywhere that supports WebSock
 
 1. Push this repo to GitHub
 2. Create a new Railway project → **Deploy from GitHub Repo**
-3. Set **Root Directory** to `relay` in service settings
-4. Railway auto-detects the Dockerfile and `railway.json` config
-5. Enable **public networking** to get a public domain
-
-Railway injects `PORT` automatically — the relay already reads it.
+3. Railway auto-detects the Dockerfile via `railway.json` at the repo root — no need to set a root directory
+4. Enable **public networking** to get a public domain
+5. **Important:** leave the port as the auto-detected value. Railway injects a `PORT` env var and the relay reads it automatically. Do not override the port to a custom value like 3211 — this will cause a 502.
 
 ### Fly.io
 
@@ -138,11 +168,11 @@ fly deploy
 
 ### Other platforms
 
-Use the Dockerfile at `relay/Dockerfile` directly with any container platform.
+Use the Dockerfile at `relay/Dockerfile` directly with any container platform. The Dockerfile build context must be the repo root (not the relay directory).
 
 ### After deploying
 
-Update the agent's `RELAY_URL` and the app's relay URL to use `wss://your-deployed-url` (note `wss`, not `ws`).
+Update the agent's `RELAY_URL` to `wss://your-deployed-url` (note `wss://`, not `ws://`). The app's relay URL is entered at runtime on the connect screen.
 
 ## Configuration
 

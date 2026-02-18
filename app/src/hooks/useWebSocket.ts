@@ -27,12 +27,6 @@ export function useWebSocket() {
     useChatStore.getState().setProcessing(false)
   }, [])
 
-  useEffect(() => {
-    return () => {
-      disconnect()
-    }
-  }, [])
-
   return {
     status,
     isProcessing,

@@ -40,7 +40,7 @@ export class MessageHandler {
       case 'prompt':
         this.session.runPrompt(
           msg.text,
-          msg.sessionId || this.session.currentSessionId || undefined,
+          this.session.currentSessionId || undefined,
         )
         break
 
